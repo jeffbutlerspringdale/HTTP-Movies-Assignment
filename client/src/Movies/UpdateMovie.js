@@ -29,12 +29,12 @@ return (
                  {touched.metascore && errors.metascore && (
                 <p className="error">{errors.metascore}</p>
                 )}
-                <FieldArray>
+                {/* <FieldArray>
                   <Field type='text' name='star' placeholder='star' />
-                </FieldArray>
+                  </FieldArray>
                  {touched.star && errors.star && (
                 <p className="error">{errors.star}</p>
-                )}
+                )} */}
                 <button type="submit">Submit</button>
 
                  {movies.map(movie => (
@@ -54,13 +54,13 @@ return (
 )
 };
 
-const FormikAppForm = withFormik({
+const UpdateMovieForm = withFormik({
     mapPropsToValues({ title, director, metascore, star}){
         return {
             title: title || "",
             director: director || "",
             metascore: metascore || "",
-            star: star || ""
+            // star: star || ""
         };
     },
 
@@ -68,12 +68,12 @@ const FormikAppForm = withFormik({
     title: Yup.string().required(),
     director: Yup.string().required(),
     metascore: Yup.string().required(),
-    star: Yup.array().required()
+    // star: Yup.array().required()
   }),
 
     handleSubmit(values, { setStatus }) {
         axios
-        .post("http://localhost:5000/api/movies", values)
+        .put(`http://localhost:5000/api/movies/3`, values)
         .then(res => {
             console.log('in form', res.data)
             setStatus(res.data);
@@ -82,4 +82,4 @@ const FormikAppForm = withFormik({
     }
 })(AppForm);
 
-export default FormikAppForm
+export default UpdateMovieForm
